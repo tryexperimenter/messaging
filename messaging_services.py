@@ -2,7 +2,7 @@
 
 code_to_run = "instantiate code_to_run"
 from datetime import datetime
-# date_starting_monday = datetime(2023,2,27) #used for scheduling messages, needs to be the monday of the week you want to schedule messages for
+date_starting_monday = datetime(2023,3,6) #used for scheduling messages, needs to be the monday of the week you want to schedule messages for
 # code_to_run = "send_messages"
 # code_to_run = "schedule_messages"
 # code_to_run = "cancel_scheduled_messages"
@@ -12,7 +12,7 @@ from datetime import datetime
 # %% Set Up
 
 # %%%Set folder/file paths
-folder_main = r'C:\Users\trist\side_projects\experimenter' 
+folder_main = r'C:\Users\trist\experimenter\messaging' 
 folder_custom_functions = os.path.join(folder_main,'functions')
 folder_credentials = os.path.join(folder_main,'credentials')
 folder_logs = os.path.join(folder_main,'logs')
@@ -202,6 +202,18 @@ if code_to_run == 'schedule_mini_experiment_messages':
             short_io_api_key=short_io_api_key),
         axis=1)
 
+    # Long reflection URL (prior week)
+    df_mini_experimenters['url_long_record_observations_prior_week'] = df_mini_experimenters.apply(
+        lambda row: f"https://tryexperimenter.com/observations?first_name={row['first_name']}&user_phone={row['user_phone']}&user_email={row['user_email']}&experiments=wk{row['experiment_week']-1}&url_stub_experimenter_log={row['url_stub_experimenter_log']}", 
+        axis=1)
+
+    # Reflection URL (prior week)
+    df_mini_experimenters['url_record_observations_prior_week'] = df_mini_experimenters.apply(
+        lambda row: generate_short_url(
+            long_url = row['url_long_record_observations_prior_week'], 
+            short_io_api_key=short_io_api_key),
+        axis=1)
+
     # Experimenter Log URL
     df_mini_experimenters['url_experimenter_log'] = df_mini_experimenters.apply(
         lambda row: f"tryexperimenter.com/{row['url_stub_experimenter_log']}",
@@ -239,6 +251,7 @@ if code_to_run == 'schedule_mini_experiment_messages':
         experiment_week,
         first_name, 
         url_record_observations, 
+        url_record_observations_prior_week,
         url_view_observations, 
         url_experimenter_log,
         ) in \
@@ -249,6 +262,7 @@ if code_to_run == 'schedule_mini_experiment_messages':
         df_messages['experiment_week'],
         df_messages['first_name'],
         df_messages['url_record_observations'],
+        df_messages['url_record_observations_prior_week'],
         df_messages['url_view_observations'],
         df_messages['url_experimenter_log'],
     )):
@@ -258,6 +272,7 @@ if code_to_run == 'schedule_mini_experiment_messages':
             'experiment_week',
             'first_name',
             'url_record_observations',
+            'url_record_observations_prior_week',
             'url_view_observations',
             'url_experimenter_log',
             ]:
