@@ -2,7 +2,7 @@
 
 code_to_run = "instantiate code_to_run"
 from datetime import datetime
-date_starting_monday = datetime(2023,3,6) #used for scheduling messages, needs to be the monday of the week you want to schedule messages for
+date_starting_monday = datetime(2023,3,13) #used for scheduling messages, needs to be the monday of the week you want to schedule messages for
 # code_to_run = "send_messages"
 # code_to_run = "schedule_messages"
 # code_to_run = "cancel_scheduled_messages"
@@ -226,6 +226,10 @@ if code_to_run == 'schedule_mini_experiment_messages':
         left_on = merge_cols,
         right_on = merge_cols,
         how = "left")
+
+    # Remove any rows for experimenters where there are no messages to send
+    df_messages = df_messages[df_messages['msg_body_sms'].notnull() & df_messages['msg_body_email'].notnull()]
+
 
     ## Assign datetimes to send
 
