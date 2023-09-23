@@ -2,7 +2,7 @@
 
 code_to_run = "instantiate code_to_run"
 from datetime import datetime
-date_starting_monday = datetime(2023,3,13) #used for scheduling messages, needs to be the monday of the week you want to schedule messages for
+date_starting_monday = datetime(2023,5,29) #used for scheduling messages, needs to be the monday of the week you want to schedule messages for
 # code_to_run = "send_messages"
 # code_to_run = "schedule_messages"
 # code_to_run = "cancel_scheduled_messages"
@@ -13,7 +13,6 @@ date_starting_monday = datetime(2023,3,13) #used for scheduling messages, needs 
 
 # %%%Set folder/file paths
 folder_main = r'C:\Users\trist\experimenter\messaging' 
-folder_custom_functions = os.path.join(folder_main,'functions')
 folder_credentials = os.path.join(folder_main,'credentials')
 folder_logs = os.path.join(folder_main,'logs')
 path_google_workspaces_api_credential = os.path.join(folder_credentials, 'google_workspaces_api_credential.json')
@@ -30,7 +29,7 @@ from sendgrid import SendGridAPIClient
 
 
 # %%%Import custom functions
-sys.path.insert(1, folder_custom_functions) # caution: path[0] is reserved for script path (or '' in REPL)
+sys.path.append("./functions")
 from google_services_functions import (
     get_google_workspaces_access,
     get_gspread_sheets_con,
